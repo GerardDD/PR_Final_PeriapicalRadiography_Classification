@@ -28,5 +28,6 @@ for i in xrays:
     except:
         print(f'{path}/{i} skipped')
 
-f = open('/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/con_imagen_pickle.txt', 'wb')
+f = open('/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/sin_imagen_pickle.txt', 'wb')
 pickle.dump(vectorized, file=f)
+
