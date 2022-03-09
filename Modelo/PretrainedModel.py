@@ -6,6 +6,7 @@ import numpy as np
 import cv2
 import os
 import pickle
+import regex as re
 
 path = input('enter the path where your images are')
 xrays = os.listdir(path)
@@ -16,18 +17,25 @@ model = vgg16.VGG16(weights="imagenet")
 print("[INFO] loading and preprocessing images...")
 
 vectorized = []
+sex_patt = re.compile('sex(F|M|U)')
+age_patt = re.compile('age(\d*)_')
 
 for i in xrays:
     try:
         print(f'{path}/{i}')
+        age = age_patt.findall(i)[0]
+        sex = sex_patt.findall(i)[0]
         image = image_utils.load_img(f'{path}/{i}', target_size=(224, 224))
         image = image_utils.img_to_array(image)
         image = np.expand_dims(image, axis=0)
         image = preprocess_input(image)
-        vectorized.append(model.predict(image))
+        vector = model.predict(image)
+        vector_age = np.append(vector,age)
+        vector_sex = np.append(vector_age,sex)
+        vectorized.append(vector_sex)
     except:
         print(f'{path}/{i} skipped')
 
-f = open('/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/con_imagen_pickle_rotated.txt', 'wb')
+f = open('/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/sin_imagen_agesex_pickle.txt', 'wb')
 pickle.dump(vectorized, file=f)
 
