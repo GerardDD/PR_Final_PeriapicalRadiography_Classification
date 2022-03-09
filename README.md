@@ -55,7 +55,7 @@ Describe your full process of data wrangling and cleaning. Document why you chos
 
 ## Model Training and Evaluation
 
-<img src="/Users/cnieto/Downloads/PR_Final_diagram.png" alt="Diagram workflow" width="100"/>
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/PR_Final_diagram.png" alt="Diagram workflow" width="100"/>
 
 
 PENDING
