@@ -9,6 +9,7 @@ import pickle
 import regex as re
 
 path = input('enter the path where your images are')
+pickle_path = input('enter the pickle file that must be overwritten')
 xrays = os.listdir(path)
 
 print("[INFO] loading network...")
@@ -36,6 +37,6 @@ for i in xrays:
     except:
         print(f'{path}/{i} skipped')
 
-f = open('/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/sin_imagen_crop.txt', 'wb')
+f = open(pickle_path, 'wb')
 pickle.dump(vectorized, file=f)
 
