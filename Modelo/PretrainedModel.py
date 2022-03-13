@@ -10,8 +10,8 @@ import regex as re
 
 #path = input('enter the path where your images are')
 #pickle_path = input('enter the pickle file that must be overwritten')
-path = '/Users/cnieto/IronHack/Personal_projects/sin_imagen_croppinghalf'
-pickle_path = '/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/sin_imagen_noCens.txt'
+path = '/Users/cnieto/IronHack/Personal_projects/sin_imagen_noCens'
+pickle_path = '/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/sin_imagen_rotated_noCens.txt'
 xrays = os.listdir(path)
 
 print("[INFO] loading network...")
