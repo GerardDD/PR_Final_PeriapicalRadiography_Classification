@@ -22,8 +22,10 @@ for i in xrays:
         # extract 1/4 of the width
         proportion_x = int(image.shape[1] / 4)
         proportion_y = int(image.shape[0] / 2)
-    # crop image 
-        cropped = image[proportion_y: , proportion_x:-proportion_x] # notation is weird: [starty:endy, startx:endx]
+    # crop image
+    #  
+        #cropped = image[proportion_y: , proportion_x:-proportion_x] # notation is weird: [starty:endy, startx:endx]
+        cropped = image[: , proportion_x:-proportion_x]
         cv2.imwrite(f'{outpath}/{i[:-4]}_cropped.jpg', cropped)
     except:
         pass
