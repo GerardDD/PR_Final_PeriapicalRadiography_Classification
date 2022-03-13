@@ -8,8 +8,10 @@ import os
 import pickle
 import regex as re
 
-path = input('enter the path where your images are')
-pickle_path = input('enter the pickle file that must be overwritten')
+#path = input('enter the path where your images are')
+#pickle_path = input('enter the pickle file that must be overwritten')
+path = '/Users/cnieto/IronHack/Personal_projects/sin_imagen_croppinghalf'
+pickle_path = '/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/sin_imagen_noCens.txt'
 xrays = os.listdir(path)
 
 print("[INFO] loading network...")
@@ -25,7 +27,9 @@ for i in xrays:
     try:
         print(f'{path}/{i}')
         age = age_patt.findall(i)[0]
+        print(age)
         sex = sex_patt.findall(i)[0]
+        print(sex)
         image = image_utils.load_img(f'{path}/{i}', target_size=(224, 224))
         image = image_utils.img_to_array(image)
         image = np.expand_dims(image, axis=0)
