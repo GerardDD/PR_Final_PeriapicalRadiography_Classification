@@ -35,28 +35,32 @@ Our goal is to design an algorithm that could help on identifing unhealthy roots
 
 Dataset is obtained from real individuals, although no more information can be disclosed due to LOPD laws.
 
-The dataset contains 300 x-ray radiographies: 150 healthy, 150 unhealthy teeth.
-Additional categorical information such as age and sex is provided partialy.
+The dataset contains 390 x-ray radiographies: 198 healthy, 192 unhealthy teeth.
+Additional categorical information such as age and sex is provided partially.
  
 * If the question cannot be answered with the available data, why not? What data would you need to answer it better? PENDING 
 
 ## Cleaning
-Describe your full process of data wrangling and cleaning. Document why you chose to fill missing values, extract outliers, or create the variables you did as well as your reasoning behind the process.
 
 - Manually extracting sex and age information from the images themself
 - Erasing private information from images using OpenCV library
+- Cropped images to focus on the important parts using OpenCV library
+
 
 ## Analysis
  PENDING
-* Overview the general steps you went through to analyze your data in order to test your hypothesis.
-* Document each step of your data exploration and analysis.
-* Include charts to demonstrate the effect of your work.
-* If you used Machine Learning in your final project, describe your feature selection process.
+
+* First I noted that xrays images have different orientation, so I manually rotated them so they all have the same
+* Then I tried different configurations of base dataset:  censored images, u uncesored images, cropped images, uncropped images.
+* I used two different pretrained models to preprocess images: VGG16 and VGG19
+* Every configuration pretrained was dumped on individual pickles so they can be used in the near future if needed
+* Then I used lazypredict library to run a batch of vanilla models, thus acting as first model
+selection process
+* The top 5 models where then gridsearched for every configuration.
+
+
 
 ## Model Training and Evaluation
-
-<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/PR_Final_diagram.png" alt="Diagram workflow" />
-
 
 PENDING
 *Include this section only if you chose to include ML in your project.*
@@ -73,6 +77,8 @@ PENDING
 Address any questions you were unable to answer, or any next steps or future extensions to your project.
 
 ## Workflow
+
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/PR_Final_diagram.png" alt="Diagram workflow" />
 PENDING
 Outline the workflow you used in your project. What were the steps?
 How did you test the accuracy of your analysis and/or machine learning algorithm?
