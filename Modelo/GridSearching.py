@@ -9,6 +9,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.svm import NuSVC
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
 from sklearn.neighbors import NearestCentroid
+from sklearn.preprocessing import KBinsDiscretizer
 import category_encoders as ce
 from sklearn.metrics import auc, roc_curve
 import matplotlib.pyplot as plt
@@ -28,6 +29,27 @@ df['sex_0'] = encoder.fit_transform(df['sex'])['sex_0']
 df['sex_1'] = encoder.fit_transform(df['sex'])['sex_1']
 X = df.drop(['Target','age','sex_0','sex_1','sex'],axis=1)
 y = df.Target
+
+df_2 = pd.read_csv('df_rotated_unCens.csv')
+df_2.drop('Unnamed: 0',axis=1,inplace=True)
+df_2.rename(columns={'1000':'age', '1001':'sex'},inplace=True)
+encoder = ce.BinaryEncoder()
+df_2['sex_0'] = encoder.fit_transform(df_2['sex'])['sex_0']
+df_2['sex_1'] = encoder.fit_transform(df_2['sex'])['sex_1']
+kdisc = KBinsDiscretizer(n_bins=7, encode='ordinal')
+df_2['age_bin'] = kdisc.fit_transform(df_2[['age']])
+X_2 = df_2.drop(['Target','sex','age'],axis=1)
+y_2 = df_2.Target
+
+df_3 = pd.read_csv('df_rotated_unCens_vgg19.csv')
+df_3.drop('Unnamed: 0',axis=1,inplace=True)
+df_3.rename(columns={'1000':'age', '1001':'sex'},inplace=True)
+encoder = ce.BinaryEncoder()
+df_3['sex_0'] = encoder.fit_transform(df_3['sex'])['sex_0']
+df_3['sex_1'] = encoder.fit_transform(df_3['sex'])['sex_1']
+kdisc = KBinsDiscretizer(n_bins=7, encode='ordinal')
+df_3['age_bin'] = kdisc.fit_transform(df_3[['age']])
+
 
 classifiers = [
     NuSVC(), 
@@ -71,7 +93,7 @@ parameters = [
 
 estimators = []
 # iterate through each classifier and use GridSearchCV
-grid = 4
+grid = int(input('choose grid \n'))
 if grid == 1:
 
     for i, classifier in enumerate(classifiers):
@@ -183,6 +205,235 @@ elif grid == 4:
         # add the clf to the estimators list
         estimators.append((classifier.__class__.__name__, clf))
     print(estimators)
+elif grid == 5:
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=15)                      # number of folds
+        clf.fit(X_2, y_2)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
+
+elif grid == 6:
+    X_2 = df_2.drop(['Target','sex','age','age_bin'],axis=1)
+    y_2 = df_2.Target
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=15)                      # number of folds
+        clf.fit(X_2, y_2)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
+elif grid == 7:
+
+    df_m2 = df_2[df_2.sex == 'M']
+    X_2 = df_m2.drop(['Target','sex_0','sex_1','sex','age'],axis=1)
+    y_2 = df_m2.Target
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=30)                      # number of folds
+        clf.fit(X_2, y_2)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
+elif grid == 8:
+
+    df_f2 = df_2[df_2.sex == 'F']
+    X_2 = df_f2.drop(['Target','sex_0','sex_1','sex','age'],axis=1)
+    y_2 = df_f2.Target
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=30)                      # number of folds
+        clf.fit(X_2, y_2)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
+elif grid == 9:
+    X_3 = df_3.drop(['Target','sex','age','age_bin'],axis=1)
+    y_3 = df_3.Target
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=30)                      # number of folds
+        clf.fit(X_3, y_3)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
+elif grid == 10:
+    X_3 = df_3.drop(['Target','sex','age'],axis=1)
+    y_3 = df_3.Target
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        X_train, X_test, y_train, y_test = train_test_split(X_3, y_3,test_size=0.15,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=30)                      # number of folds
+        clf.fit(X_train, y_train)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
+elif grid == 11:
+    df_f3 = df_3[df_3.sex == 'F']
+    X_3 = df_f3.drop(['Target','sex_0','sex_1','sex','age'],axis=1)
+    y_3 = df_f3.Target
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=30)                      # number of folds
+        clf.fit(X_3, y_3)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
+elif grid == 12:
+    df_f3 = df_3[df_3.sex == 'M']
+    X_3 = df_f3.drop(['Target','sex_0','sex_1','sex','age'],axis=1)
+    y_3 = df_f3.Target
+
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=30)                      # number of folds
+        clf.fit(X_3, y_3)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)    
 else:
     print('no grid selected')
 
