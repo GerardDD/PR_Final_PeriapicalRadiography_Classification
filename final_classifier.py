@@ -27,7 +27,7 @@ vectorized = []
 image_tag = []
 for i in xrays:
     try:
-        print(f'{path}/{i}')
+        print(f'vectorizing {path}/{i} ...')
         image = image_utils.load_img(f'{path}/{i}', target_size=(224, 224))
         image = image_utils.img_to_array(image)
         image = np.expand_dims(image, axis=0)
@@ -54,12 +54,24 @@ for i in vectorized:
             df.iloc[pos,col] = z
             col += 1
 
+df_pred = pd.DataFrame(
+    columns = range(0,2),
+    index = range(0,len(xrays))
+    )
+
 # pred values:
 for i,j in zip(df.index,image_tag):
     result = fmodel.predict(df.loc[[i,]])[0]
     if result == 0:
         print(f'NO unhealthy tooth detected in {j}')
+        
     else:
         print(f'UNHEALTHY tooth detected in {j}')
+    df_pred.loc[i,0] = j
+    df_pred.loc[i,1] = result
 
+# export excel with results 
 
+df_pred.rename(columns={0:'image name',1:'result'}, inplace=True)
+df_pred.to_csv('./predictions.csv')
+df_pred.to_excel('./predictions.xls')
