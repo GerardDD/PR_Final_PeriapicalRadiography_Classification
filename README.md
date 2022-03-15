@@ -92,7 +92,7 @@ PENDING
 
 - VGG19 uncens
 
-<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19.png" alt="VGG19 uncens" />
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/uncensVGG19_images_Lcurves.png" alt="VGG19 uncens" />
 
 ## Conclusion
 PENDING
