@@ -65,8 +65,18 @@ selection process
 PENDING
 *Include this section only if you chose to include ML in your project.*
 * Describe how you trained your model, the results you obtained, and how you evaluated those results.
-* Several configurations were used, performing first a simple NuSVC classifier to them, with the following results:
-    - 
+* Several configurations were used using the vectorized VGG16 images, performing first a simple NuSVC classifier to them. Results on training score were acceptable, but test score were mostly poor.
+* Then, vectorized VGG19 images were used, and the results were more promising
+
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/Models_table.png" alt="Models table" />
+
+* ROC curves were used to evalute models:
+
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg16.png" alt="VGG16 ROC" />
+
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19.png" alt="VGG19 ROC" />
+
+
 
 ## Conclusion
 PENDING
