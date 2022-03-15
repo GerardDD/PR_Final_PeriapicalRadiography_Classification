@@ -76,7 +76,15 @@ PENDING
 
 <img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19.png" alt="VGG19 ROC" />
 
+* Learning curves were evaluated too:
 
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/rotated_images_Lcurves.png" alt="VGG16 rotated" />
+
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/croped_images_Lcurves.png" alt="VGG16 cropped" />
+
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/uncensVGG16_images_Lcurves.png" alt="VGG16 uncens" />
+
+<img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19.png" alt="VGG19 uncens" />
 
 ## Conclusion
 PENDING
