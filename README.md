@@ -65,6 +65,8 @@ selection process
 PENDING
 *Include this section only if you chose to include ML in your project.*
 * Describe how you trained your model, the results you obtained, and how you evaluated those results.
+* Several configurations were used, performing first a simple NuSVC classifier to them, with the following results:
+    - 
 
 ## Conclusion
 PENDING
