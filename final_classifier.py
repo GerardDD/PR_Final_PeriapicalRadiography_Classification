@@ -12,7 +12,7 @@ import os
 # import trained model
 
 fmodel = pickle.load(open('./final_model.sav','rb'))
-
+print(fmodel)
 # load images
 
 path = input('enter the folder where your unclassified images are\n')
@@ -54,14 +54,19 @@ for i in vectorized:
             df.iloc[pos,col] = z
             col += 1
 
+df.to_csv('/Users/cnieto/Downloads/prueba/df_prueba/df_prueba.csv')
+
 df_pred = pd.DataFrame(
     columns = range(0,2),
     index = range(0,len(xrays))
     )
 
+
+
 # pred values:
 for i,j in zip(df.index,image_tag):
     result = fmodel.predict(df.loc[[i,]])[0]
+    print(f'result is {result}')
     if result == 0:
         print(f'NO unhealthy tooth detected in {j}')
         
