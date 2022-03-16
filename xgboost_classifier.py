@@ -22,7 +22,7 @@ modelo_xgboost.load_model("./Modelo/modelo_xgboost.model")
 # load images
 
 #path = input('enter the folder where your unclassified images are\n')
-path = '/Users/cnieto/Downloads/prueba/prueba_F'
+path = '/Users/cnieto/Downloads/prueba/prueba'
 xrays = os.listdir(path)
 
 # vectorized unclassified images
@@ -75,6 +75,9 @@ df.to_csv('/Users/cnieto/Downloads/prueba/df_prueba/df_prueba.csv')
 if df.iloc[0,1001] == 'F':
     df['sex_0'] = 1
     df['sex_1'] = 0
+else:
+    df['sex_0'] = 0
+    df['sex_1'] = 1
 
 for i,j in df.iterrows():
     if int(df.iloc[i,1000]) < 15:
