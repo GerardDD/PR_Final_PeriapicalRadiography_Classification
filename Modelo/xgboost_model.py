@@ -1,3 +1,4 @@
+from statistics import mode
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -19,7 +20,7 @@ df = pd.read_csv('dataset_selected_as.csv')
 df.drop('Unnamed: 0',axis=1,inplace=True)
 df.rename(columns={'1000':'age', '1001':'sex'},inplace=True)
 df_origin = df.copy()
-df.drop(df[(df['age'] == 999) | (df['sex'] == 'U')].index, axis=0,inplace=True)
+#df.drop(df[(df['age'] == 999) | (df['sex'] == 'U')].index, axis=0,inplace=True)
 
 encoder = ce.BinaryEncoder()
 df['sex_0'] = encoder.fit_transform(df['sex'])['sex_0']
@@ -67,13 +68,16 @@ X_train, X_test = train_test_split(df_f,test_size=0.15)
 X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
 X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
 
-parametros = {"booster":"gbtree", "max_depth": 2, "eta": 0.3, "objective": "binary:logistic", "nthread":2}
+#parametros = {"booster":"gbtree", "max_depth": 2000, "eta": 0.01, "objective": "binary:logistic", "nthread":2}
+parametros = {"booster":"dart", "max_depth": 2000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
+
 rondas = 10
 
 evaluacion = [(X_test_mat, "eval"), (X_train_mat, "train")]
 
 modelo = xgb.train(parametros, X_train_mat, rondas, evaluacion)
-modelo.save_model("./modelo_xgboost.model")
+#modelo.save_model("./modelo_xgboost.model")
+
 
 prediccion = modelo.predict(X_test_mat)
 prediccion = [1 if i > .5 else 0 for i in prediccion]
@@ -110,14 +114,23 @@ prediccion_03 = [1 if i > .5 else 0 for i in prediccion_03]
 metricas_03 = get_metricas(X_test["Target"], prediccion_03)
 [print(i) for i in metricas_03]
 
+# prueba con full dataset
+
+
+
+
+
 # prueba real
 
-#df_m_prueba2 = df_m_prueba.drop(['sex','age'],axis=1)
-#df_m_prueba2 = df_m_prueba2.apply(pd.to_numeric)
-#
-#unclassified =  xgb.DMatrix(df_m_prueba2)
-#
-#prediccion = modelo.predict(unclassified)
-#prediccion = [1 if i > .5 else 0 for i in prediccion]
-#print(prediccion)
+modelo_importado = xgb.Booster()
+modelo_importado.load_model("./modelo_xgboost.model")
+
+df_m_prueba2 = df_m_prueba.drop(['sex','age'],axis=1)
+df_m_prueba2 = df_m_prueba2.apply(pd.to_numeric)
+
+unclassified =  xgb.DMatrix(df_m_prueba2)
+
+prediccion = modelo_importado.predict(unclassified)
+prediccion = [1 if i > .5 else 0 for i in prediccion]
+print(prediccion)
 
