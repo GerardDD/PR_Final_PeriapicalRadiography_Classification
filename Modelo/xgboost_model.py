@@ -16,6 +16,8 @@ import xgboost as xgb
 from sklearn.preprocessing import KBinsDiscretizer
 import pickle
 
+# importamos df training
+
 df = pd.read_csv('dataset_selected_as.csv')
 df.drop('Unnamed: 0',axis=1,inplace=True)
 df.rename(columns={'1000':'age', '1001':'sex'},inplace=True)
@@ -96,28 +98,76 @@ def get_metricas(objetivo, prediccion):
 metricas = get_metricas(X_test["Target"], prediccion)
 [print(i) for i in metricas]
 
-parametros_02 = {"booster":"gbtree", "max_depth": 4, "eta": .3, "objective": "binary:logistic", "nthread":2}
-rondas_02 = 100
-modelo_02 = xgb.train(parametros_02, X_train_mat, rondas_02, evaluacion, early_stopping_rounds=10)
+#parametros_02 = {"booster":"gbtree", "max_depth": 4, "eta": .3, "objective": "binary:logistic", "nthread":2}
+#rondas_02 = 100
+#modelo_02 = xgb.train(parametros_02, X_train_mat, rondas_02, evaluacion, early_stopping_rounds=10)
+#
+#prediccion_02 = modelo_02.predict(X_test_mat)
+#prediccion_02 = [1 if i > .5 else 0 for i in prediccion_02]
+#metricas_02 = get_metricas(X_test["Target"], prediccion_02)
+#[print(i) for i in metricas_02]
+#
+#parametros_03 = {"booster":"gbtree", "max_depth": 6, "eta": .2, "objective": "binary:logistic", "nthread":2}
+#rondas_03 = 100
+#modelo_03 = xgb.train(parametros_02, X_train_mat, rondas_02, evaluacion, early_stopping_rounds=10)
+#
+#prediccion_03 = modelo_03.predict(X_test_mat)
+#prediccion_03 = [1 if i > .5 else 0 for i in prediccion_03]
+#metricas_03 = get_metricas(X_test["Target"], prediccion_03)
+#[print(i) for i in metricas_03]
 
-prediccion_02 = modelo_02.predict(X_test_mat)
-prediccion_02 = [1 if i > .5 else 0 for i in prediccion_02]
-metricas_02 = get_metricas(X_test["Target"], prediccion_02)
-[print(i) for i in metricas_02]
+# model df_m
 
-parametros_03 = {"booster":"gbtree", "max_depth": 6, "eta": .2, "objective": "binary:logistic", "nthread":2}
-rondas_03 = 100
-modelo_03 = xgb.train(parametros_02, X_train_mat, rondas_02, evaluacion, early_stopping_rounds=10)
+df_m = df[df.sex == 'M']
 
-prediccion_03 = modelo_03.predict(X_test_mat)
-prediccion_03 = [1 if i > .5 else 0 for i in prediccion_03]
-metricas_03 = get_metricas(X_test["Target"], prediccion_03)
-[print(i) for i in metricas_03]
+X_train, X_test = train_test_split(df_m,test_size=0.1)
+
+X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
+X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
+
+parametros = {"booster":"gbtree", "max_depth":1500, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
+#parametros = {"booster":"dart", "max_depth": 1500, "eta": 0.2, "objective": "binary:logistic", "nthread":2}
+
+rondas = 30
+
+evaluacion = [(X_test_mat, "eval"), (X_train_mat, "train")]
+
+modelo = xgb.train(parametros, X_train_mat, rondas, evaluacion)
+#modelo.save_model("./modelo_xgboost_m.model")
+
+prediccion = modelo.predict(X_test_mat)
+prediccion = [1 if i > .5 else 0 for i in prediccion]
+
+print(prediccion)
+
+metricas = get_metricas(X_test["Target"], prediccion)
+[print(i) for i in metricas]
+
 
 # prueba con full dataset
 
+X_train, X_test = train_test_split(df,test_size=0.1)
 
+X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
+X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
 
+parametros = {"booster":"gbtree", "max_depth": 2000, "eta": 0.01, "objective": "binary:logistic", "nthread":2}
+#parametros = {"booster":"dart", "max_depth": 2000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
+
+rondas = 10
+
+evaluacion = [(X_test_mat, "eval"), (X_train_mat, "train")]
+
+modelo = xgb.train(parametros, X_train_mat, rondas, evaluacion)
+#modelo.save_model("./modelo_xgboost_full.model")
+
+prediccion = modelo.predict(X_test_mat)
+prediccion = [1 if i > .5 else 0 for i in prediccion]
+
+print(prediccion)
+
+metricas = get_metricas(X_test["Target"], prediccion)
+[print(i) for i in metricas]
 
 
 # prueba real
