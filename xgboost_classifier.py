@@ -16,8 +16,24 @@ from keras.applications import  vgg19
 import os
 import regex as re
 
+# loading the 3 models
+
+# female
 modelo_xgboost = xgb.Booster()
 modelo_xgboost.load_model("./Modelo/modelo_xgboost.model")
+
+# male
+
+modelo_xgboost_m = xgb.Booster()
+modelo_xgboost_m.load_model("./Modelo/modelo_xgboost_m.model")
+
+# mixed
+
+modelo_xgboost_full = xgb.Booster()
+modelo_xgboost_full.load_model("./Modelo/modelo_xgboost_full.model")
+
+
+
 
 # load images
 
@@ -95,8 +111,17 @@ df.drop([1000,1001],axis=1,inplace=True)
 
 
 
-
 df_pred = pd.DataFrame(
+    columns = range(0,2),
+    index = range(0,len(xrays))
+    )
+
+df_pred_m = pd.DataFrame(
+    columns = range(0,2),
+    index = range(0,len(xrays))
+    )
+
+df_pred_full = pd.DataFrame(
     columns = range(0,2),
     index = range(0,len(xrays))
     )
@@ -110,6 +135,7 @@ unclassified =  xgb.DMatrix(df_m_prueba2)
 pred = modelo_xgboost.predict(unclassified)
 
 # pred values:
+print('model based on female images\n')
 for i,j in zip(df.index,image_tag):
     result = pred[i]
     print(f'result is {result}')
@@ -128,4 +154,53 @@ for i,j in zip(df.index,image_tag):
 df_pred.rename(columns={0:'image name',1:'result'}, inplace=True)
 df_pred.to_csv('./predictions.csv')
 df_pred.to_excel('./predictions.xls')
+
+
+# Male - pred values:
+print('model based on male images\n')
+pred = modelo_xgboost_m.predict(unclassified)
+
+for i,j in zip(df.index,image_tag):
+    result = pred[i]
+    print(f'result is {result}')
+    if result < 0.5:
+        result = 0
+        print(f'NO unhealthy tooth detected in {j}')
+        
+    else:
+        result = 1
+        print(f'UNHEALTHY tooth detected in {j}')
+    df_pred_m.loc[i,0] = j
+    df_pred_m.loc[i,1] = result
+
+# export excel with results 
+
+df_pred_m.rename(columns={0:'image name',1:'result'}, inplace=True)
+df_pred_m.to_csv('./predictions_m.csv')
+df_pred_m.to_excel('./predictions_m.xls')
+
+# Full - pred values:
+
+print('model based on mixed images\n')
+pred = modelo_xgboost_full.predict(unclassified)
+
+for i,j in zip(df.index,image_tag):
+    result = pred[i]
+    print(f'result is {result}')
+    if result < 0.5:
+        result = 0
+        print(f'NO unhealthy tooth detected in {j}')
+        
+    else:
+        result = 1
+        print(f'UNHEALTHY tooth detected in {j}')
+    df_pred_full.loc[i,0] = j
+    df_pred_full.loc[i,1] = result
+
+# export excel with results 
+
+df_pred_full.rename(columns={0:'image name',1:'result'}, inplace=True)
+df_pred_full.to_csv('./predictions_m.csv')
+df_pred_full.to_excel('./predictions_m.xls')
+
 
