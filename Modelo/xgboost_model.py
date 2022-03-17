@@ -65,15 +65,15 @@ df_f = df[df.sex == 'F']
 
 # xgboosting
 
-X_train, X_test = train_test_split(df_f,test_size=0.2)
+X_train, X_test = train_test_split(df_f,test_size=0.15)
 
 X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
 X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
 
 #parametros = {"booster":"gbtree", "max_depth": 2000, "eta": 0.01, "objective": "binary:logistic", "nthread":2}
-parametros = {"booster":"dart", "max_depth": 1000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
+parametros = {"booster":"gbtree", "max_depth": 7, "eta": 0.07, "objective": "binary:logistic", "nthread":2}
 
-rondas = 10
+rondas = 20
 
 evaluacion = [(X_test_mat, "eval"), (X_train_mat, "train")]
 
@@ -125,7 +125,7 @@ X_train, X_test = train_test_split(df_m,test_size=0.15)
 X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
 X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
 
-parametros = {"booster":"gbtree", "max_depth":1500, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
+parametros = {"booster":"gbtree", "max_depth": 5, "eta": 0.4, "objective": "binary:logistic", "nthread":2}
 #parametros = {"booster":"dart", "max_depth": 1500, "eta": 0.2, "objective": "binary:logistic", "nthread":2}
 
 rondas = 30
@@ -151,7 +151,7 @@ X_train, X_test = train_test_split(df,test_size=0.1)
 X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
 X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
 
-parametros = {"booster":"gbtree", "max_depth": 2000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
+parametros = {"booster":"gbtree", "max_depth": 5, "eta": 0.4, "objective": "binary:logistic", "nthread":2}
 #parametros = {"booster":"dart", "max_depth": 2000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
 
 rondas = 10
