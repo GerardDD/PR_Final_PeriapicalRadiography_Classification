@@ -17,7 +17,6 @@
 - [Conclusion](#conclusion)
 - [Future Work](#future-work)
 - [Workflow](#workflow)
-- [Organization](#organization)
 - [Links](#links)
 
 ## Project Description 
@@ -132,32 +131,25 @@ Columna1 | image name | result | Real |Check
 |11|CON_age35_sexU__.JPG|1|1|VERDADERO
 
 
-
-Female dataset performs better, even when testing it on mixed samples of male, female, and unknown.
-
-
 ## Conclusion
 PENDING
-* Summarize your results. What do they mean?
-* What can you say about your hypotheses?
-* Interpret your findings in terms of the questions you try to answer.
+
+* Current model is not accurate enough to be used as a proper tool of classification and diagnosis,
+however it may be used as an additional source for Kappa scoring using by odontolgists (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3900052/).
+
+
 
 ## Future Work
 PENDING
 Address any questions you were unable to answer, or any next steps or future extensions to your project.
+* It is clear that there is still a lot of room for improvement. There are different paths that can be further explored to achieve a higher accuracy:
+1) Obtain more and better data: The dataset was relatively small so it is possible that was not enough for the model to be trained properly.
+2) Create a new CNN: Instead of using VGG19 transfer learning, created a new specific neural network from scratch so it can be specific for our case.
 
 ## Workflow
 
 <img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/PR_Final_diagram.png" alt="Diagram workflow" />
-PENDING
-Outline the workflow you used in your project. What were the steps?
-How did you test the accuracy of your analysis and/or machine learning algorithm?
 
-## Organization
-PENDING
-How did you organize your work? Did you use any tools like a trello or kanban board?
-
-What does your repository look like? Explain your folder and file structure.
 
 ## Links
 PENDING
