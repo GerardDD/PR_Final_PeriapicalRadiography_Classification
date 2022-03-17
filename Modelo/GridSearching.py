@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.svm import NuSVC
-from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier, AdaBoostClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.preprocessing import KBinsDiscretizer
 import category_encoders as ce
@@ -51,7 +51,7 @@ df_3['sex_1'] = encoder.fit_transform(df_3['sex'])['sex_1']
 kdisc = KBinsDiscretizer(n_bins=7, encode='ordinal')
 df_3['age_bin'] = kdisc.fit_transform(df_3[['age']])
 
-df_4 = pd.read_csv('dataset_selected_crop.csv')
+df_4 = pd.read_csv('dataset_selected_as.csv')
 df_4.drop('Unnamed: 0',axis=1,inplace=True)
 df_4.rename(columns={'1000':'age', '1001':'sex'},inplace=True)
 encoder = ce.BinaryEncoder()
@@ -66,7 +66,8 @@ classifiers = [
     GaussianNB(),
     RandomForestClassifier(),
     ExtraTreesClassifier(),
-    XGBClassifier()
+    XGBClassifier(),
+    AdaBoostClassifier()
 ]
 
 # parameter grids for the various classifiers
@@ -95,8 +96,13 @@ ExtraTree_parameters = {
 xgboost_parameters = {
     'classifier__gamma': np.linspace(0,1,5),
     'classifier__booster': ['gbtree', 'dart'],
-    'classifier__max_depth': [5,10,50,100],
-    'classifier__learning_rate': [0.1,0.3,0.4]
+    'classifier__max_depth': [5,10,15],
+    'classifier__learning_rate': [0.05,0.025]
+}
+
+adaboost_parameters = {
+    'classifier__n_estimators': [50,150,100],
+    'classifier__learning_rate': [0.05,0.025]
 }
 
 parameters = [
@@ -105,7 +111,8 @@ parameters = [
     GaussianNB_parameters,
     RandomForest_parameters,
     ExtraTree_parameters,
-    xgboost_parameters
+    xgboost_parameters,
+    adaboost_parameters
 
 ]
 
@@ -469,7 +476,7 @@ elif grid == 14:
         clf = GridSearchCV(pipe,              # model
                   param_grid = parameters[i], # hyperparameters
                   #scoring='accuracy',         # metric for scoring
-                  cv=30)                      # number of folds
+                  cv=20)                      # number of folds
         clf.fit(X_4, y_4)
         print("Tuned Hyperparameters :", clf.best_params_)
         print("Accuracy :", clf.best_score_)
@@ -481,7 +488,35 @@ elif grid == 14:
         # add the clf to the estimators list
         estimators.append((classifier.__class__.__name__, clf))
     print(estimators)
+elif grid == 15:
+    #df_f4 = df_4[df_4.sex == 'F']
+    X_4 = df_4.drop(['Target','sex_0','sex_1','sex','age'],axis=1)
+    y_4 = df_4.Target
 
+    estimators = []
+# iterate through each classifier and use GridSearchCV
+    for i, classifier in enumerate(classifiers):
+        #X_train, X_test, y_train, y_test = train_test_split(X_2, y_2,test_size=0.2,shuffle=True)
+        # create a Pipeline object
+        print(f'I"m in cycle {i}')
+        pipe = Pipeline(steps=[
+            ('classifier', classifier)
+        ])
+        clf = GridSearchCV(pipe,              # model
+                  param_grid = parameters[i], # hyperparameters
+                  #scoring='accuracy',         # metric for scoring
+                  cv=20)                      # number of folds
+        clf.fit(X_4, y_4)
+        print("Tuned Hyperparameters :", clf.best_params_)
+        print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+        #clf.fit(X_5_train, y_5_train)
+        #print("Tuned Hyperparameters :", clf.best_params_)
+        #print("Accuracy :", clf.best_score_)
+        # add the clf to the estimators list
+        estimators.append((classifier.__class__.__name__, clf))
+    print(estimators)
 else:
     print('no grid selected')
 
