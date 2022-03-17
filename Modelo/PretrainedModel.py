@@ -14,8 +14,8 @@ import regex as re
 #path = '/Users/cnieto/Downloads/prueba/prueba'
 #pickle_path = '/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/real_test_as.txt'
 
-path = '/Users/cnieto/IronHack/Personal_projects/sin_imagen_selected'
-pickle_path = '/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/sin_imagen_selected_as.txt'
+path = '/Users/cnieto/IronHack/Personal_projects/con_selected_cropped'
+pickle_path = '/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/con_imagen_selected_crop.txt'
 
 xrays = os.listdir(path)
 premodel = input('select vgg16 or vgg19\n')

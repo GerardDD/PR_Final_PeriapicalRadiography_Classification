@@ -18,7 +18,7 @@ import pickle
 
 # importamos df training
 
-df = pd.read_csv('dataset_selected_as.csv')
+df = pd.read_csv('dataset_selected_crop.csv')
 df.drop('Unnamed: 0',axis=1,inplace=True)
 df.rename(columns={'1000':'age', '1001':'sex'},inplace=True)
 df_origin = df.copy()
@@ -65,20 +65,20 @@ df_f = df[df.sex == 'F']
 
 # xgboosting
 
-X_train, X_test = train_test_split(df_f,test_size=0.15)
+X_train, X_test = train_test_split(df_f,test_size=0.2)
 
 X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
 X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
 
 #parametros = {"booster":"gbtree", "max_depth": 2000, "eta": 0.01, "objective": "binary:logistic", "nthread":2}
-parametros = {"booster":"dart", "max_depth": 2000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
+parametros = {"booster":"dart", "max_depth": 1000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
 
 rondas = 10
 
 evaluacion = [(X_test_mat, "eval"), (X_train_mat, "train")]
 
 modelo = xgb.train(parametros, X_train_mat, rondas, evaluacion)
-#modelo.save_model("./modelo_xgboost.model")
+#modelo.save_model("./modelo_xgboost_crop.model")
 
 
 prediccion = modelo.predict(X_test_mat)
@@ -120,7 +120,7 @@ metricas = get_metricas(X_test["Target"], prediccion)
 
 df_m = df[df.sex == 'M']
 
-X_train, X_test = train_test_split(df_m,test_size=0.1)
+X_train, X_test = train_test_split(df_m,test_size=0.15)
 
 X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
 X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
@@ -133,7 +133,7 @@ rondas = 30
 evaluacion = [(X_test_mat, "eval"), (X_train_mat, "train")]
 
 modelo = xgb.train(parametros, X_train_mat, rondas, evaluacion)
-#modelo.save_model("./modelo_xgboost_m.model")
+#modelo.save_model("./modelo_xgboost_m_crop.model")
 
 prediccion = modelo.predict(X_test_mat)
 prediccion = [1 if i > .5 else 0 for i in prediccion]
@@ -151,7 +151,7 @@ X_train, X_test = train_test_split(df,test_size=0.1)
 X_train_mat = xgb.DMatrix(X_train.drop(['Target','sex','age'],axis=1),label=X_train["Target"])
 X_test_mat = xgb.DMatrix(X_test.drop(['Target','sex','age'],axis=1),label=X_test["Target"])
 
-parametros = {"booster":"gbtree", "max_depth": 2000, "eta": 0.01, "objective": "binary:logistic", "nthread":2}
+parametros = {"booster":"gbtree", "max_depth": 2000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
 #parametros = {"booster":"dart", "max_depth": 2000, "eta": 0.1, "objective": "binary:logistic", "nthread":2}
 
 rondas = 10
@@ -159,7 +159,7 @@ rondas = 10
 evaluacion = [(X_test_mat, "eval"), (X_train_mat, "train")]
 
 modelo = xgb.train(parametros, X_train_mat, rondas, evaluacion)
-#modelo.save_model("./modelo_xgboost_full.model")
+#modelo.save_model("./modelo_xgboost_full_crop.model")
 
 prediccion = modelo.predict(X_test_mat)
 prediccion = [1 if i > .5 else 0 for i in prediccion]

@@ -200,7 +200,7 @@ for i,j in zip(df.index,image_tag):
 # export excel with results 
 
 df_pred_full.rename(columns={0:'image name',1:'result'}, inplace=True)
-df_pred_full.to_csv('./predictions_m.csv')
-df_pred_full.to_excel('./predictions_m.xls')
+df_pred_full.to_csv('./predictions_full.csv')
+df_pred_full.to_excel('./predictions_full.xls')
 
 

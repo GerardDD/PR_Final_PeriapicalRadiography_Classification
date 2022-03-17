@@ -94,6 +94,17 @@ PENDING
 
 <img src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/uncensVGG19_images_Lcurves.png" alt="VGG19 uncens" />
 
+* Unfortunately, upon testing the model on a set of validation images, the result was bad, not detecting a single unhealthy tooth
+
+* Further analysis of the dataset, revealed that xrays belonging to the same person were misleading the model as ther were too similar and "easy" to train and classify.
+
+* I trained new models but this time manually filtering the dataset to not include xrays of the same person
+
+* This time results train and test scores were lower, but more according to the reality
+
+* After trying classical Machine Learning models, i tried xgboosting
+
+
 ## Conclusion
 PENDING
 * Summarize your results. What do they mean?
