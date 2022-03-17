@@ -157,7 +157,7 @@ df_pred.to_excel('./predictions.xls')
 
 
 # Male - pred values:
-print('model based on male images\n')
+print('\nmodel based on male images\n')
 pred = modelo_xgboost_m.predict(unclassified)
 
 for i,j in zip(df.index,image_tag):
@@ -181,7 +181,7 @@ df_pred_m.to_excel('./predictions_m.xls')
 
 # Full - pred values:
 
-print('model based on mixed images\n')
+print('\nmodel based on mixed images\n')
 pred = modelo_xgboost_full.predict(unclassified)
 
 for i,j in zip(df.index,image_tag):

@@ -100,9 +100,23 @@ PENDING
 
 * I trained new models but this time manually filtering the dataset to not include xrays of the same person
 
-* This time results train and test scores were lower, but more according to the reality
+* This time results train and test scores were lower, but more according to the reality. I also noted that when separating datasets by sexes, female scored better:
 
-* After trying classical Machine Learning models, i tried xgboosting
+<img 
+src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19_selected_female.png" alt="VGG 19 selected female" />
+
+<img 
+src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_selected_vgg19.png" alt="VGG 19 selected" />
+
+<img 
+src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19_selected_male.png" alt="VGG 19 selected male" />
+
+
+* After trying classical Machine Learning models, I tried xgboosting
+
+Results so far are similar:
+
+Female dataset performs better, even when testing it on mixed samples of male, female, and unknown.
 
 
 ## Conclusion
