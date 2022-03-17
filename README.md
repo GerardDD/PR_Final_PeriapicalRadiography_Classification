@@ -116,6 +116,7 @@ src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/b
 When trying with a validation set of images (not used neither in training nor testing sets),
 I obtained the following results:
 
+<tab
 Columna1	image name	result	Real	Check
 0	SIN_sexU_age35__.JPG	1	0	FALSO
 1	CON_age35_sexU___.JPG	1	1	VERDADERO
@@ -128,7 +129,7 @@ Columna1	image name	result	Real	Check
 8	SIN_sexF_age47____.JPG	1	0	FALSO
 9	CON_age35_sexU.JPG	0	1	FALSO
 10	SIN_sexF_age47__.JPG	1	0	FALSO
-11	CON_age35_sexU__.JPG	1	1	VERDADERO
+11	CON_age35_sexU__.JPG	1	1	VERDADERO />
 
 
 
