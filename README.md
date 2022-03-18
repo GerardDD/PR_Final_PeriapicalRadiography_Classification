@@ -61,8 +61,6 @@ selection process
 
 ## Model Training and Evaluation
 
-PENDING
-*Include this section only if you chose to include ML in your project.*
 * Describe how you trained your model, the results you obtained, and how you evaluated those results.
 * Several configurations were used using the vectorized VGG16 images, performing first a simple NuSVC classifier to them. Results on training score were acceptable, but test score were mostly poor.
 * Then, vectorized VGG19 images were used, and the results were more promising
