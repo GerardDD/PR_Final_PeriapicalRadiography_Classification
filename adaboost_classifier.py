@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix, classification_report, accuracy_sc
 import category_encoders as ce
 from sklearn.metrics import auc, roc_curve
 import matplotlib.pyplot as plt
-import xgboost as xgb
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.preprocessing import KBinsDiscretizer
 import pickle
 from keras.preprocessing import image as image_utils
@@ -19,21 +19,17 @@ import regex as re
 # loading the 3 models
 
 # female
-modelo_xgboost = xgb.Booster()
-modelo_xgboost.load_model("./Modelo/modelo_xgboost.model")
+
+modelo_ada_f = pickle.load(open('./Modelo/modelo_adaboost_as_f.sav','rb'))
+
 
 # male
 
-modelo_xgboost_m = xgb.Booster()
-modelo_xgboost_m.load_model("./Modelo/modelo_xgboost_m.model")
+modelo_ada_m = pickle.load(open('./Modelo/modelo_adaboost_as_m.sav','rb'))
 
 # mixed
 
-modelo_xgboost_full = xgb.Booster()
-modelo_xgboost_full.load_model("./Modelo/modelo_xgboost_full.model")
-
-
-
+modelo_ada_full = pickle.load(open('./Modelo/modelo_adaboost_as_full.sav','rb'))
 
 # load images
 
@@ -126,15 +122,11 @@ df_pred_full = pd.DataFrame(
     index = range(0,len(xrays))
     )
 
-# transform vectorized df to xgboost matrix
 
-#df_m_prueba2 = df.drop(['sex','age'],axis=1)
-df_m_prueba2 = df.apply(pd.to_numeric)
-
-unclassified =  xgb.DMatrix(df_m_prueba2)
-pred = modelo_xgboost.predict(unclassified)
 
 # pred values:
+
+pred = modelo_ada_f.predict(df)
 print('model based on female images\n')
 for i,j in zip(df.index,image_tag):
     result = pred[i]
@@ -152,14 +144,14 @@ for i,j in zip(df.index,image_tag):
 # export excel with results 
 
 df_pred.rename(columns={0:'image name',1:'result'}, inplace=True)
-df_pred.to_csv('./predictions.csv')
-df_pred.to_excel('./predictions.xls')
+df_pred.to_csv('./predictions_ada_f.csv')
+df_pred.to_excel('./predictions_ada_f.xls')
 
 
-# Male - pred values:
-print('\nmodel based on male images\n')
-pred = modelo_xgboost_m.predict(unclassified)
+# pred values:
 
+pred = modelo_ada_m.predict(df)
+print('model based on male images\n')
 for i,j in zip(df.index,image_tag):
     result = pred[i]
     print(f'result is {result}')
@@ -176,14 +168,13 @@ for i,j in zip(df.index,image_tag):
 # export excel with results 
 
 df_pred_m.rename(columns={0:'image name',1:'result'}, inplace=True)
-df_pred_m.to_csv('./predictions_m.csv')
-df_pred_m.to_excel('./predictions_m.xls')
+df_pred_m.to_csv('./predictions_ada_m.csv')
+df_pred_m.to_excel('./predictions_ada_m.xls')
 
-# Full - pred values:
+# pred values:
 
-print('\nmodel based on mixed images\n')
-pred = modelo_xgboost_full.predict(unclassified)
-
+pred = modelo_ada_full.predict(df)
+print('model based on mixed images\n')
 for i,j in zip(df.index,image_tag):
     result = pred[i]
     print(f'result is {result}')
@@ -200,7 +191,5 @@ for i,j in zip(df.index,image_tag):
 # export excel with results 
 
 df_pred_full.rename(columns={0:'image name',1:'result'}, inplace=True)
-df_pred_full.to_csv('./predictions_full.csv')
-df_pred_full.to_excel('./predictions_full.xls')
-
-
+df_pred_full.to_csv('./predictions_ada_full.csv')
+df_pred_full.to_excel('./predictions_ada_full.xls')
