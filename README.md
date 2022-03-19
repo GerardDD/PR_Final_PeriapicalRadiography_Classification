@@ -97,7 +97,7 @@ selection process
 
 * I trained new models but this time manually filtering the dataset to not include xrays of the same person
 
-* This time results train and test scores were lower, but more according to the reality. I also noted that when separating datasets by sexes, female scored better:
+* This time results train and test scores were lower, but more according to the reality:
 
 <img 
 src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19_selected_female.png" alt="VGG 19 selected female" />
