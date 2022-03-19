@@ -132,7 +132,7 @@ Columna1 | image name | result | Real |Check
 |6|SIN_sexU_age35_.JPG|0|0|VERDADERO
 |7|CON_age38_sexF.JPG|1|1|VERDADERO
 |8|SIN_sexF_age47____.JPG|1|0|FALSO
-|9|CON_age35_sexU.JPG|1|1| VERDADERO
+|9|CON_age35_sexU.JPG|0|1| VERDADERO
 |10|SIN_sexF_age47__.JPG|1|0|FALSO
 |11|CON_age35_sexU__.JPG|1|1|VERDADERO
 
