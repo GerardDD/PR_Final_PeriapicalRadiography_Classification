@@ -109,7 +109,11 @@ src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/b
 src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_randomforest_vgg19_selected_male.png" alt="VGG 19 selected male" />
 
 
-* After trying classical Machine Learning models, I tried xgboosting.
+* After trying classical Machine Learning models, I tried xgboosting. Results are slightly better:
+
+<img 
+src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/blob/main/Modelo/ROC_Boost_vgg19_selected_as.png" alt="VGG 19 xgboost selected" />
+
 When trying with a validation set of images (not used neither in training nor testing sets),
 I obtained the following results:
 
@@ -124,7 +128,7 @@ Columna1 | image name | result | Real |Check
 |6|SIN_sexU_age35_.JPG|0|0|VERDADERO
 |7|CON_age38_sexF.JPG|1|1|VERDADERO
 |8|SIN_sexF_age47____.JPG|1|0|FALSO
-|9|CON_age35_sexU.JPG|0|1|FALSO
+|9|CON_age35_sexU.JPG|1|1| VERDADERO
 |10|SIN_sexF_age47__.JPG|1|0|FALSO
 |11|CON_age35_sexU__.JPG|1|1|VERDADERO
 
