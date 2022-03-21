@@ -28,9 +28,21 @@ encoder = ce.BinaryEncoder()
 df['sex_0'] = encoder.fit_transform(df['sex'])['sex_0']
 df['sex_1'] = encoder.fit_transform(df['sex'])['sex_1']
 
-kdisc = KBinsDiscretizer(n_bins=5, encode='ordinal')
-df['age_bin'] = kdisc.fit_transform(df[['age']])
-
+#kdisc = KBinsDiscretizer(n_bins=5, encode='ordinal')
+#df['age_bin'] = kdisc.fit_transform(df[['age']])
+for i,j in df.iterrows():
+    if int(df.loc[i,'age']) < 15:
+        df.loc[i,'age_bin'] = 0
+    elif int(df.loc[i,'age']) < 30:
+        df.loc[i,'age_bin'] = 1
+    elif int(df.loc[i,'age']) < 45:
+        df.loc[i,'age_bin'] = 2
+    elif int(df.loc[i,'age']) < 60:
+        df.loc[i,'age_bin'] = 3
+    elif int(df.loc[i,'age']) == 999:
+        df.loc[i,'age_bin'] = 5
+    else:
+        df.loc[i,'age_bin'] = 4
 # df de prueba
 
 prueba_arr = pickle.load(open('/Users/cnieto/IronHack/Personal_projects/PR_Final_PeriapicalRadiography_Classification/Image_preprocessing/real_test_as.txt','rb'))

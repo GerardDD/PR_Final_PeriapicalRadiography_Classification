@@ -38,6 +38,9 @@ modelo_xgboost_full.load_model("./Modelo/modelo_xgboost_full.model")
 # load images
 
 #path = input('enter the folder where your unclassified images are\n')
+#path = '/Users/cnieto/Downloads/Desktop/sin_im'
+#path = '/Users/cnieto/IronHack/Personal_projects/con_imagen_noCens'
+#path = '/Users/cnieto/Desktop/set_alumni'
 path = '/Users/cnieto/Downloads/2/2_prueba'
 xrays = os.listdir(path)
 
@@ -139,7 +142,7 @@ print('model based on female images\n')
 for i,j in zip(df.index,image_tag):
     result = pred[i]
     print(f'result is {result}')
-    if result < 0.5:
+    if result < 0.48:
         result = 0
         print(f'NO unhealthy tooth detected in {j}')
         
@@ -163,7 +166,7 @@ pred = modelo_xgboost_m.predict(unclassified)
 for i,j in zip(df.index,image_tag):
     result = pred[i]
     print(f'result is {result}')
-    if result < 0.5:
+    if result < 0.48:
         result = 0
         print(f'NO unhealthy tooth detected in {j}')
         
@@ -187,7 +190,7 @@ pred = modelo_xgboost_full.predict(unclassified)
 for i,j in zip(df.index,image_tag):
     result = pred[i]
     print(f'result is {result}')
-    if result < 0.5:
+    if result < 0.48:
         result = 0
         print(f'NO unhealthy tooth detected in {j}')
         
@@ -203,4 +206,39 @@ df_pred_full.rename(columns={0:'image name',1:'result'}, inplace=True)
 df_pred_full.to_csv('./predictions_full.csv')
 df_pred_full.to_excel('./predictions_full.xls')
 
+df_combi = df_pred.copy()
 
+df_combi['image name m'] = df_pred_m['image name']
+df_combi['result m'] = df_pred_m['result']
+df_combi2 = df_combi.copy()
+df_combi['image name full'] = df_pred_full['image name']
+df_combi['result full'] = df_pred_full['result']
+df_combi['combi'] = df_combi['result'] + df_combi['result m'] + df_combi['result full']
+df_combi2['combi'] = df_combi2['result'] + df_combi2['result m']
+df_combi['Veredict'] = df_combi['combi'].apply(lambda x: 'Healthy' if x < 2 else 'Unealthy')
+df_combi2['Veredict'] = df_combi2['combi'].apply(lambda x: 'Healthy' if x < 1 else 'Unealthy')
+df_combi['short_name'] = df_combi['image name'].apply(lambda x: 'SIN' if x.__contains__("SIN") else "CON" )
+df_combi2['short_name'] = df_combi2['image name'].apply(lambda x: 'SIN' if x.__contains__("SIN") else "CON" )
+
+for i,j in df_combi.short_name.iteritems():
+    if j == 'SIN' and df_combi.loc[i,'combi'] < 2:
+        df_combi.loc[i,'check'] = 'TRUE'
+    elif j == 'CON' and df_combi.loc[i,'combi'] > 1:
+        df_combi.loc[i,'check'] = 'TRUE'
+    else:
+        df_combi.loc[i,'check'] = 'FALSE'
+
+for i,j in df_combi2.short_name.iteritems():
+    if j == 'SIN' and df_combi2.loc[i,'combi'] <= 1:
+        df_combi2.loc[i,'check'] = 'TRUE'
+    elif j == 'CON' and df_combi2.loc[i,'combi'] > 1:
+        df_combi2.loc[i,'check'] = 'TRUE'
+    else:
+        df_combi2.loc[i,'check'] = 'FALSE'
+
+
+df_combi.to_excel('./predictions_combi.xls')
+df_combi[['image name','Veredict','check']].to_excel('./predictions_combi_simple.xls')
+
+df_combi2.to_excel('./predictions_combi2.xls')
+df_combi2[['image name','Veredict','check']].to_excel('./predictions_combi2_simple.xls')
