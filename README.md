@@ -47,7 +47,6 @@ Additional categorical information such as age and sex is provided partially.
 
 
 ## Analysis
- PENDING
 
 * First I noted that xrays images have different orientation, so I manually rotated them so they all have the same
 * Then I tried different configurations of base dataset:  censored images, u uncesored images, cropped images, uncropped images.
@@ -121,20 +120,42 @@ src="https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification/b
 When trying with a validation set of images (not used neither in training nor testing sets),
 I obtained the following results with xgboost:
 
-Columna1 | image name | result | Real |Check
----------|------------|--------|------|-----
-|0|SIN_sexU_age35__.JPG|1|0|FALSO
-|1|CON_age35_sexU___.JPG|1|1|VERDADERO
-|2|CON_age999_sexM.JPG|1|1|VERDADERO
-|3|SIN_sexF_age47_.JPG|0|0|VERDADERO
-|4|CON_age38_sexF__.JPG|1|1|VERDADERO
-|5|SIN_sexF_age47___.JPG|0|0|VERDADERO
-|6|SIN_sexU_age35_.JPG|0|0|VERDADERO
-|7|CON_age38_sexF.JPG|1|1|VERDADERO
-|8|SIN_sexF_age47____.JPG|1|0|FALSO
-|9|CON_age35_sexU.JPG|0|1| FALSO
-|10|SIN_sexF_age47__.JPG|1|0|FALSO
-|11|CON_age35_sexU__.JPG|1|1|VERDADERO
+
+
+Image name | Veredict | Check
+-----------|----------|------
+|SIN_age59_sexM.JPG|Healthy|TRUE
+|CON_age38_sexF_II.JPG|Unealthy|TRUE
+|CON_age35_sexU_III.JPG|Unealthy|TRUE
+|SIN_age47__sexF_III.JPG|Healthy|TRUE
+|CON_age999_sexM.JPG|Healthy|FALSE
+|SIN_age35_sexU_II.JPG|Healthy|TRUE
+|SIN_age32_sexF32.JPG|Unealthy|FALSE
+|CON__age999_sexU.jpg|Unealthy|TRUE
+|SIN_age36_sexM.BMP|Unealthy|FALSE
+|SIN_age30_sexF.JPG|Healthy|TRUE
+|CON_age35_sexU_II.JPG|Unealthy|TRUE
+|SIN_age47_sexF__IV.JPG|Healthy|TRUE
+|CON_age36_sexF.JPG|Unealthy|TRUE
+|SIN_age35_sexU_III.JPG|Healthy|TRUE
+|SIN_age46_sexF.JPG|Unealthy|FALSE
+|SIN_age47_sexF.JPG|Unealthy|FALSE
+|SIN_age25_sexF.BMP|Healthy|TRUE
+|CON_age20_sexF.JPG|Unealthy|TRUE
+|SIN_age30_sexM.JPG|Unealthy|FALSE
+|CON_age38_sexF.JPG|Unealthy|TRUE
+|SIN_age29_sexM.JPG|Unealthy|FALSE
+|SIN_age51_sexM.JPG|Healthy|TRUE
+|SIN_age47__sexF_II.JPG|Healthy	TRUE
+|CON_age63_sexM.JPG|Healthy|FALSE
+|SIN_age35_sexU.JPG|Healthy|TRUE
+|CON_age50_sexM.JPG|Healthy|FALSE
+|CON_age80_sexM.JPG|Unealthy|TRUE
+|CON_age35_sexU.JPG|Unealthy|TRUE
+|CON_age42_sexF.JPG|Unealthy|TRUE
+|SIN_age47_sexF_V.JPG|Unealthy|FALSE
+|SIN_age74_sexM.JPG|Healthy|TRUE
+|CON_age999_sexU.JPG|Healthy|FALSE
 
 
 ## Conclusion
