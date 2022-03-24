@@ -37,11 +37,11 @@ modelo_xgboost_full.load_model("./Modelo/modelo_xgboost_full.model")
 
 # load images
 
-#path = input('enter the folder where your unclassified images are\n')
+path = input('enter the folder where your unclassified images are\n')
 #path = '/Users/cnieto/Downloads/Desktop/sin_im'
 #path = '/Users/cnieto/IronHack/Personal_projects/con_imagen_noCens'
 #path = '/Users/cnieto/Desktop/set_alumni'
-path = '/Users/cnieto/Downloads/2/2_prueba'
+#path = '/Users/cnieto/Downloads/2/2_prueba'
 xrays = os.listdir(path)
 
 # vectorized unclassified images
