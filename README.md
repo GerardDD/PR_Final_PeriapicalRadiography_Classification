@@ -60,7 +60,6 @@ selection process
 
 ## Model Training and Evaluation
 
-* Describe how you trained your model, the results you obtained, and how you evaluated those results.
 * Several configurations were used using the vectorized VGG16 images, performing first a simple NuSVC classifier to them. Results on training score were acceptable, but test score were mostly poor.
 * Then, vectorized VGG19 images were used, and the results were more promising
 
@@ -94,7 +93,7 @@ selection process
 
 * Further analysis of the dataset, revealed that xrays belonging to the same person were misleading the model as ther were too similar and "easy" to train and classify.
 
-* I trained new models but this time manually filtering the dataset to not include xrays of the same person
+* I validated the models but this time manually filtering the dataset to not include xrays of the same person
 
 * This time results train and test scores were lower, but more according to the reality:
 
@@ -146,7 +145,7 @@ Image name | Veredict | Check
 |CON_age38_sexF.JPG|Unealthy|TRUE
 |SIN_age29_sexM.JPG|Unealthy|FALSE
 |SIN_age51_sexM.JPG|Healthy|TRUE
-|SIN_age47__sexF_II.JPG|Healthy	TRUE
+|SIN_age47__sexF_II.JPG|Healthy|TRUE
 |CON_age63_sexM.JPG|Healthy|FALSE
 |SIN_age35_sexU.JPG|Healthy|TRUE
 |CON_age50_sexM.JPG|Healthy|FALSE
@@ -159,19 +158,18 @@ Image name | Veredict | Check
 
 
 ## Conclusion
-PENDING
 
 * Current model is not accurate enough to be used as a proper tool of classification and diagnosis,
-however it may be used as an additional source for Kappa scoring using by odontolgists (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3900052/).
+however it may be used as an additional source for Kappa scoring using by odontolgists since the accuracy of the model is not that far away from human accuracy. (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3900052/).
 
 
 
 ## Future Work
-PENDING
-Address any questions you were unable to answer, or any next steps or future extensions to your project.
+
 * It is clear that there is still a lot of room for improvement. There are different paths that can be further explored to achieve a higher accuracy:
 1) Obtain more and better data: The dataset was relatively small so it is possible that was not enough for the model to be trained properly.
-2) Create a new CNN: Instead of using VGG19 transfer learning, created a new specific neural network from scratch so it can be specific for our case.
+2) Adding new feature such as previous treatments or type of teeth might help classification
+3) Create a new CNN: Instead of using VGG19 transfer learning, create a new  neural network from scratch so it can be specific for our case.
 
 ## Workflow
 
@@ -179,10 +177,10 @@ Address any questions you were unable to answer, or any next steps or future ext
 
 
 ## Links
-PENDING
+
 Include links to your repository, slides and trello/kanban board. Feel free to include any other links associated with your project.
 
 
-[Repository](https://github.com/)  
-[Slides](https://slides.com/)  
-[Trello](https://trello.com/en)  
+[Repository](https://github.com/GerardDD/PR_Final_PeriapicalRadiography_Classification)  
+[Slides](https://view.genial.ly/623ae61df23ac2001add470a/presentation-dental-xray)  
+
