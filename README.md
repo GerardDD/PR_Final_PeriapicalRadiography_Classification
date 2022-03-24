@@ -34,10 +34,9 @@ Our goal is to design an algorithm that could help on identifing unhealthy roots
 
 Dataset is obtained from real individuals, although no more information can be disclosed due to LOPD laws.
 
-The dataset contains 390 x-ray radiographies: 198 healthy, 192 unhealthy teeth.
+The dataset contains 259 x-ray radiographies: 125 healthy, 134 unhealthy teeth.
 Additional categorical information such as age and sex is provided partially.
  
-* If the question cannot be answered with the available data, why not? What data would you need to answer it better? PENDING 
 
 ## Cleaning
 
